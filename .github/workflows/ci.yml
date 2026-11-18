@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+jobs:
+  build-and-smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Smoke test (boot server and hit key routes)
+        env:
+          ADMIN_PASSWORD: ci-only-password-123
+          PORT: 3100
+        run: |
+          node server.js &
+          sleep 3
+          curl -fsS http://localhost:3100/healthz
+          curl -fsS http://localhost:3100/ | grep -qi "<title>"
+          curl -fsS http://localhost:3100/services > /dev/null
+          curl -fsS http://localhost:3100/sitemap.xml > /dev/null
+          curl -fsS http://localhost:3100/api/content > /dev/null
