@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JFT Admin</title><meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+:root{--blue:#2271b1;--blue-d:#135e96;--text:#1d2327;--muted:#646970;--line:#c3c4c7;--bg:#f0f0f1;--side:#1d2327;--side2:#2c3338;--green:#00a32a;--red:#d63638;--amber:#dba617}
+*{box-sizing:border-box}[hidden]{display:none!important}html,body{margin:0}
+body{font:13px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;background:var(--bg);color:var(--text);min-width:320px}
+a{color:var(--blue)}a:hover{color:var(--blue-d)}
+svg{width:20px;height:20px;fill:currentColor;display:block}
+/* login */
+#login{padding:8% 20px 20px;text-align:center}#login .logo{font:900 44px/1 Arial,sans-serif;letter-spacing:.04em;color:var(--text);margin-bottom:24px}#login .logo span{color:#ff9100}
+#login form{max-width:320px;margin:0 auto;background:#fff;border:1px solid var(--line);box-shadow:0 1px 3px rgba(0,0,0,.04);padding:26px 24px;text-align:left}
+#login label{font-size:14px;display:block;margin-bottom:3px}#login input{font-size:20px;padding:3px 8px;width:100%;margin:0 0 16px;height:40px}
+#login .button-primary{width:100%;height:36px;font-size:14px}#login .err{color:var(--red);margin:-6px 0 12px;min-height:16px}
+/* admin bar */
+#adminbar{position:fixed;top:0;left:0;right:0;height:32px;background:#1d2327;color:#f0f0f1;z-index:1000;display:flex;align-items:center;padding:0}
+#adminbar .ab{position:relative;height:32px;display:flex;align-items:center;color:#f0f0f1;text-decoration:none;padding:0 8px;cursor:pointer;background:none;border:0;font:inherit}
+#adminbar .ab:hover,#adminbar .ab:focus-within{background:var(--side2);color:#72aee6}#adminbar .grow{flex:1}
+#adminbar svg{width:18px;height:18px;margin-right:6px}
+.dd{display:none;position:absolute;top:32px;left:0;min-width:160px;background:var(--side2);z-index:5}.ab:hover .dd,.ab:focus-within .dd{display:block}.dd.r{left:auto;right:0}
+.dd a{display:block;padding:8px 12px;color:#f0f0f1;text-decoration:none;white-space:nowrap}.dd a:hover{color:#72aee6;background:#1d2327}
+#burger{display:none}
+/* side menu */
+#menuwrap{position:fixed;top:32px;bottom:0;left:0;width:160px;background:var(--side);overflow-y:auto;z-index:900;transition:width .1s}
+#menu{list-style:none;margin:12px 0 0;padding:0}
+.mt>a{display:flex;align-items:center;gap:8px;padding:0 8px;height:34px;color:#f0f0f1;text-decoration:none;font-size:14px}
+.mt>a svg{width:20px;height:20px;opacity:.7;flex:none}.mt:hover>a{background:var(--side2);color:#72aee6}.mt:hover>a svg,.mt.cur>a svg{opacity:1}
+.mt.cur>a{background:var(--blue);color:#fff}.mt.cur>a:hover{color:#fff}
+.sub{list-style:none;margin:0;padding:7px 0 8px;background:var(--side2);display:none}.mt.cur .sub{display:block}
+.sub a{display:block;padding:5px 12px 5px 36px;color:rgba(240,246,252,.7);text-decoration:none;font-size:13px}.sub a:hover{color:#72aee6}.sub a.on{color:#fff;font-weight:600}
+.bubble{background:var(--red);color:#fff;border-radius:9px;font-size:9px;font-weight:600;padding:1px 6px;margin-left:auto}
+.sep{height:1px;background:#3c434a;margin:8px 0}
+#collapse{display:flex;gap:8px;align-items:center;width:100%;background:none;border:0;color:#a7aaad;padding:0 8px;height:34px;font:inherit;cursor:pointer;margin-top:8px}#collapse:hover{color:#72aee6}
+body.folded #menuwrap{width:36px}body.folded .mt>a span,body.folded .sub,body.folded #collapse span,body.folded .bubble{display:none!important}body.folded #content{margin-left:36px}
+#content{margin-left:160px;padding:32px 0 0;min-height:100vh}.wrap{padding:10px 20px 60px 20px;max-width:1300px}
+/* headings, buttons */
+h1.wp-heading{font-size:23px;font-weight:400;margin:0 0 14px;padding:9px 0 4px;line-height:1.3;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.page-title-action{font-size:13px;border:1px solid var(--blue);border-radius:3px;padding:4px 8px;background:#f6f7f7;text-decoration:none;color:var(--blue);cursor:pointer;line-height:1.4}.page-title-action:hover{background:#f0f0f1;border-color:var(--blue-d)}
+.button,.button-primary{display:inline-block;font:inherit;font-size:13px;line-height:2.15;min-height:30px;padding:0 10px;border:1px solid var(--blue);border-radius:3px;cursor:pointer;text-decoration:none;white-space:nowrap;background:#f6f7f7;color:var(--blue)}
+.button:hover{background:#f0f0f1;border-color:var(--blue-d);color:var(--blue-d)}
+.button-primary{background:var(--blue);color:#fff;border-color:var(--blue)}.button-primary:hover{background:var(--blue-d);border-color:var(--blue-d);color:#fff}
+.button-link{background:none;border:0;color:var(--blue);cursor:pointer;padding:0;font:inherit;text-decoration:underline}.del{color:var(--red)!important}
+.button-large{min-height:36px;line-height:2.5;padding:0 14px}
+input[type=text],input[type=password],input[type=date],input:not([type]),select,textarea{font:inherit;font-size:14px;padding:4px 8px;border:1px solid #8c8f94;border-radius:4px;background:#fff;color:var(--text);box-shadow:0 0 0 transparent;max-width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 1px var(--blue);outline:2px solid transparent}
+textarea{width:100%;line-height:1.5;resize:vertical}input[type=text],input[type=date],input:not([type]){min-height:30px}
+/* notices */
+.notice{background:#fff;border:1px solid #c3c4c7;border-left:4px solid var(--green);box-shadow:0 1px 1px rgba(0,0,0,.04);margin:5px 0 15px;padding:10px 38px 10px 12px;position:relative}
+.notice.bad{border-left-color:var(--red)}.notice.warn{border-left-color:var(--amber)}.notice .x{position:absolute;right:6px;top:6px;background:none;border:0;font-size:18px;cursor:pointer;color:#787c82}
+/* postbox */
+.postbox{background:#fff;border:1px solid var(--line);box-shadow:0 1px 1px rgba(0,0,0,.04);margin-bottom:20px}
+.postbox>h2{margin:0;padding:8px 12px;font-size:14px;font-weight:600;border-bottom:1px solid var(--line);line-height:1.4}.postbox .in{padding:12px}
+.postbox h4{margin:14px 0 6px;font-size:13px}.postbox .in>h4:first-child{margin-top:0}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:20px;align-items:start}.cols.one{grid-template-columns:minmax(0,1fr)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 16px}.grid2>.full{grid-column:1/-1}
+.fld label{display:block;font-weight:600;margin-bottom:4px}.fld input,.fld select{width:100%}.hint{color:var(--muted);font-size:12px;margin:4px 0 0}
+.titlebox{width:100%;font-size:1.7em;padding:3px 8px;line-height:100%;height:1.7em;margin:0 0 20px;background:#fff}
+.row{display:flex;gap:6px;margin-bottom:6px;align-items:center}.row input{flex:1}
+.ib{background:#f6f7f7;border:1px solid #dcdcde;border-radius:3px;min-width:28px;height:28px;cursor:pointer;color:#50575e;font:inherit}.ib:hover{border-color:var(--blue);color:var(--blue)}.ib.x:hover{border-color:var(--red);color:var(--red)}
+.acc{border:1px solid #dcdcde;margin-bottom:8px;background:#fff}.acc>.hd{display:flex;gap:6px;align-items:center;padding:6px 8px;background:#f6f7f7;cursor:pointer}.acc>.hd b{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.acc>.bd{padding:12px;border-top:1px solid #dcdcde}
+.pub .misc{padding:10px 12px;border-bottom:1px solid #f0f0f1}.pub .misc label{display:flex;gap:6px;align-items:center;margin-bottom:6px}.pub .foot{padding:10px 12px;background:#f6f7f7;border-top:1px solid #dcdcde;display:flex;justify-content:space-between;align-items:center}
+.imgbox{border:1px dashed #c3c4c7;background:#f6f7f7 center/cover no-repeat;min-height:120px;display:flex;align-items:center;justify-content:center;color:var(--muted);margin-bottom:8px;cursor:pointer}.imgbox.has{border-style:solid;min-height:160px}
+.lrow{display:flex;gap:10px;align-items:center;padding:8px 4px;border-bottom:1px solid #f0f0f1}.lrow label{flex:1;cursor:pointer;font-size:14px}
+/* list table */
+.subsubsub{list-style:none;margin:0 0 10px;padding:0;color:#646970;font-size:13px}.subsubsub li{display:inline}.subsubsub li+li:before{content:" | "}.subsubsub a.cur{color:var(--text);font-weight:600;text-decoration:none}.subsubsub .n{color:#646970;font-weight:400}
+.tablenav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0;justify-content:space-between}.tablenav .l,.tablenav .r{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+table.wp{border:1px solid #c3c4c7;box-shadow:0 1px 1px rgba(0,0,0,.04);background:#fff;width:100%;border-spacing:0;table-layout:auto}
+table.wp th,table.wp td{padding:8px 10px;text-align:left;vertical-align:top;line-height:1.4}table.wp thead th,table.wp tfoot th{border-bottom:1px solid #c3c4c7;font-weight:400;color:var(--text);background:#fff}table.wp tfoot th{border-top:1px solid #c3c4c7;border-bottom:0}
+table.wp tbody tr:nth-child(odd){background:#f6f7f7}table.wp tbody tr:hover{background:#f0f6fc}table.wp .chk{width:2.2em;padding:8px 0 8px 10px}table.wp td.thumb{width:64px}
+.rt{font-weight:600;font-size:14px;color:var(--blue);text-decoration:none}.rt:hover{color:var(--blue-d)}.rt .st{color:#646970;font-weight:400}
+.ra{font-size:13px;padding:2px 0 0;color:#a7aaad;position:relative;left:-9999px}tr:hover .ra,tr:focus-within .ra{position:static}.ra a,.ra button{font-size:13px}
+.th{width:50px;height:50px;background:#dcdcde center/cover;border:1px solid #dcdcde}.empty-row td{text-align:center;color:var(--muted);padding:20px}
+.pagi{display:flex;gap:4px;align-items:center}.dim{color:var(--muted)}
+@media(max-width:782px){table.wp .hide-sm{display:none}.ra{position:static}}
+/* dashboard */
+.welcome{background:#fff;border:1px solid var(--line);margin:16px 0 20px;padding:23px 10px 0;position:relative;overflow:hidden;background-image:linear-gradient(135deg,#fff 60%,#eaf3fb)}
+.welcome h2{margin:0 0 6px 16px;font-size:21px;font-weight:400}.welcome>p{margin:0 0 14px 16px;color:var(--muted);font-size:14px}
+.wcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:0 16px 20px}.wcols h3{font-size:14px;margin:0 0 10px}.wcols ul{list-style:none;padding:0;margin:0}.wcols li{margin:0 0 8px}.wcols .button-primary{margin-bottom:12px}
+.dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px;align-items:start}.dash .postbox{margin:0}
+.glance{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}.glance a{text-decoration:none;color:var(--blue)}.glance b{font-size:14px;margin-right:4px}
+.health li{padding:6px 0;border-bottom:1px solid #f0f0f1;display:flex;gap:8px}.health{list-style:none;margin:0;padding:0}.ok{color:var(--green)}.warn{color:var(--amber)}
+.snip{border:1px solid #dfe1e5;border-radius:8px;padding:12px 14px;background:#fff;margin-top:8px}.snip .u{color:#202124;font-size:12px}.snip .t{color:#1a0dab;font-size:18px;line-height:1.3;margin:2px 0}.snip .d{color:#4d5156;font-size:13px}.cnt{font-size:12px;color:var(--muted);margin-top:3px}.cnt.over{color:var(--red)}
+/* media */
+.grid-media{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}.att{aspect-ratio:1;background:#dcdcde center/cover;border:1px solid #c3c4c7;cursor:pointer;position:relative}.att:hover{outline:3px solid var(--blue)}.att.sel{outline:4px solid var(--blue)}
+.att.sel:after{content:"✓";position:absolute;right:4px;top:4px;background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px}
+/* modal */
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100000;display:flex;align-items:center;justify-content:center;padding:30px}.mbox{background:#fff;max-width:960px;width:100%;max-height:100%;display:flex;flex-direction:column;box-shadow:0 5px 15px rgba(0,0,0,.7)}
+.mbox>h2{margin:0;padding:12px 16px;font-size:18px;border-bottom:1px solid #dcdcde;display:flex;justify-content:space-between}.mbox>.mb{padding:16px;overflow:auto;flex:1}.mbox>.mf{padding:12px 16px;border-top:1px solid #dcdcde;text-align:right;background:#f6f7f7}
+#toast{position:fixed;right:20px;bottom:20px;background:#1d2327;color:#fff;padding:10px 16px;border-left:4px solid var(--green);z-index:100001;transform:translateY(80px);transition:.25s;opacity:0}#toast.show{transform:none;opacity:1}#toast.bad{border-color:var(--red)}
+/* responsive */
+@media(max-width:782px){
+ #adminbar{height:46px}#adminbar .ab{height:46px}.dd{top:46px}#burger{display:flex}#adminbar .hide-sm{display:none}
+ #menuwrap{top:46px;transform:translateX(-100%);width:190px;transition:transform .2s}body.menuopen #menuwrap{transform:none}
+ #content{margin-left:0;padding-top:46px}.cols{grid-template-columns:1fr}.wrap{padding:10px 12px 60px}body.folded #content{margin-left:0}
+ .dash{grid-template-columns:1fr}.glance{grid-template-columns:1fr}
+}
+</style></head><body>
+
+<div id="login"><div class="logo">JFT<span>.</span></div>
+ <form id="lf"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password"><div class="err" id="err"></div><button class="button button-primary" id="go" type="submit">Log In</button></form>
+ <p style="margin-top:18px"><a href="/">← Go to website</a></p></div>
+
+<div id="app" hidden>
+ <div id="adminbar"></div>
+ <div id="menuwrap"><ul id="menu"></ul><button id="collapse"></button></div>
+ <div id="content"></div>
+</div>
+<div id="modal" hidden></div><div id="toast" role="status"></div>
+
+<script>
+/* ============ helpers ============ */
+const $ = s => document.querySelector(s);
+function h(t, p, ...k) {
+  const e = document.createElement(t); let val;
+  for (const [a, v] of Object.entries(p || {})) {
+    if (v == null || v === false) continue;
+    if (a === 'class') e.className = v; else if (a === 'html') e.innerHTML = v; else if (a === 'value') val = v;
+    else if (a === 'style' || a === 'for' || a === 'colspan') e.setAttribute(a, v);
+    else if (a.startsWith('on')) e[a] = v; else if (a in e && typeof v !== 'object') { try { e[a] = v } catch { e.setAttribute(a, v) } } else e.setAttribute(a, v);
+  }
+  k.flat(9).forEach(c => { if (c != null && c !== false) e.append(c.nodeType ? c : document.createTextNode(c)) });
+  if (val !== undefined) e.value = val; return e;
+}
+const IC = { dash: 'M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z', page: 'M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z', tool: 'M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z', work: 'M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 0h-4V4h4v2z', news: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z', people: 'M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z', img: 'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z', chat: 'M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z', brush: 'M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8z', gear: 'M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z', user: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z', home: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z', plus: 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z', arrow: 'M15 5l-1.41 1.41L18.17 11H2V13h16.17l-4.59 4.59L15 19l7-7z' };
+const ico = n => h('span', { html: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${IC[n]}"/></svg>` });
+const nice = k => String(k).replace(/([A-Z])/g, ' $1').replace(/^./, c => c.toUpperCase());
+const today = () => new Date().toISOString().slice(0, 10);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+let token = sessionStorage.getItem('t'), data, dirty = false, flash = null, enqCount = 0, tmpNew = {}, prevHash = '#/dashboard', ignoreHash = false;
+const api = (u, o = {}) => fetch(u, { ...o, headers: { ...(o.headers || {}), Authorization: 'Bearer ' + token } }).then(async r => { const j = await r.json().catch(() => ({})); if (!r.ok) { if (r.status === 401) logout(); throw new Error(j.error || 'Request failed') } return j });
+const toast = (m, ok = true) => { const t = $('#toast'); t.textContent = m; t.className = 'show' + (ok ? '' : ' bad'); clearTimeout(toast.h); toast.h = setTimeout(() => t.className = '', 3000) };
+const notice = (m, t = '') => flash = { m, t };
+const markDirty = () => dirty = true;
+async function save() { await api('/api/content', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }); dirty = false }
+async function loadData() { data = await api('/api/content', { cache: 'no-store' }); ensure() }
+function ensure() {
+  data.layout = data.layout || {}; const SEC = ['hero', 'services', 'about', 'process', 'sectors', 'projects', 'contact', 'why', 'licence', 'cta']; const l = data.layout.home || [];
+  SEC.forEach(s => { if (!l.some(x => x.section === s)) l.push({ section: s, visible: true }) }); data.layout.home = l;
+  data.site = data.site || {}; data.site.cta = data.site.cta || { label: 'Request a quote', href: '/contact' }; data.site.logo = data.site.logo || ''; data.site.showTopBar = !!data.site.showTopBar;
+  data.labels = Object.assign(Object.fromEntries(LABELS.map(x => [x[0], x[2]])), data.labels || {});
+  data.seo = data.seo || {}; data.seo.pages = data.seo.pages || {}; ['home', 'about', 'services', 'projects', 'news', 'careers', 'contact', 'directors', 'vision', 'accreditation', 'quality', 'safety', 'environmental', 'sustainability', 'team'].forEach(p => data.seo.pages[p] = data.seo.pages[p] || { title: '', description: '' });
+  data.seo.siteUrl = data.seo.siteUrl || ''; data.seo.defaultImage = data.seo.defaultImage || '';
+}
+
+/* ============ schema ============ */
+const ICONS = [['fan', 'Fan (HVAC)'], ['bolt', 'Lightning (electrical)'], ['drop', 'Drop (plumbing)'], ['monitor', 'Monitor (ELV & ICT)'], ['wrench', 'Wrench (maintenance)'], ['building', 'Building (fit-out)'], ['shield', 'Shield (safety)']];
+const TYPES = {
+  services: { s: 'Service', p: 'Services', icon: 'tool', arr: () => data.services.items, img: true, cols: [['description', 'Description']], def: () => ({ title: '', image: '', icon: 'wrench', description: '', points: [] }), fields: [['icon', 'select', 'Icon', ICONS], ['description', 'textarea', 'Short description'], ['points', 'list', 'Bullet points']] },
+  projects: { s: 'Project', p: 'Projects', icon: 'work', arr: () => data.projects.items, img: true, cols: [['category', 'Category'], ['location', 'Location'], ['year', 'Year']], def: () => ({ title: '', category: '', location: '', year: String(new Date().getFullYear()), image: '', description: '' }), fields: [['category', 'text', 'Category', 'cats'], ['location', 'text', 'Location'], ['year', 'text', 'Year'], ['description', 'textarea', 'Description']] },
+  news: { s: 'News post', p: 'News & Media', icon: 'news', arr: () => data.news.items, img: true, cols: [['category', 'Category'], ['date', 'Date']], def: () => ({ title: '', date: today(), category: '', image: '', summary: '', body: '' }), fields: [['date', 'date', 'Date'], ['category', 'text', 'Category', 'cats'], ['summary', 'textarea', 'Summary (shown on the card)'], ['body', 'textarea', 'Full text (shown when “Read more” is clicked)', 'tall']] },
+  careers: { s: 'Job opening', p: 'Careers', icon: 'people', arr: () => data.careers.openings, img: false, cols: [['location', 'Location'], ['type', 'Type']], def: () => ({ title: '', location: 'Dubai', type: 'Full time', description: '' }), fields: [['location', 'text', 'Location'], ['type', 'text', 'Type (e.g. Full time)'], ['description', 'textarea', 'Description']] }
+};
+const PAGES = {
+  home: { t: 'Home', u: '/', boxes: [['Section order & visibility', ['@layout']], ['Hero banner & stat cards', ['hero']], ['Services section heading', ['services.title', 'services.intro']], ['Welcome block', ['about']], ['Qualities (right of the Welcome block)', ['why']], ['How a project runs', ['process']], ['Sectors', ['sectors']], ['Selected projects heading & video', ['projects.homeTitle', 'projects.homeIntro', 'projects.homeVideo']], ['Contact section', ['contactHome']], ['Licence strip (hidden by default)', ['licence']], ['Quote banner (hidden by default)', ['cta']]] },
+  about: { t: 'Company Profile (About Us)', u: '/about', boxes: [['Banner', ['aboutPage.banner']], ['Introduction', ['aboutPage.intro']], ['Mission', ['aboutPage.mission']], ['Vision', ['aboutPage.vision']], ['Stats strip', ['aboutPage.stats']], ['Why choose us (shared with Home)', ['why']]] },
+  directors: { t: 'Managing Director’s Message', u: '/directors-message', boxes: [['Banner', ['directorPage.banner']], ['Photo & name', ['directorPage.image', 'directorPage.name', 'directorPage.role']], ['Message', ['directorPage.message']]] },
+  vision: { t: 'Vision & Mission', u: '/vision-mission', boxes: [['Banner', ['visionPage.banner']], ['Vision', ['visionPage.vision']], ['Mission', ['visionPage.mission']], ['Values', ['visionPage.values']]] },
+  accreditation: { t: 'Accreditation', u: '/accreditation', boxes: [['Banner', ['accreditationPage.banner']], ['Intro text', ['accreditationPage.intro']], ['Certificates & memberships', ['accreditationPage.certificates']]], note: 'Licence numbers are edited on the Home page (Licence details).' },
+  quality: { t: 'Quality Policy', u: '/quality-policy', boxes: [['Banner', ['policies.quality.banner']], ['Policy text & photo', ['policies.quality.intro', 'policies.quality.statement', 'policies.quality.image']], ['Commitments', ['policies.quality.points']]] },
+  safety: { t: 'Health and Safety Policy', u: '/health-and-safety-policy', boxes: [['Banner', ['policies.safety.banner']], ['Policy text & photo', ['policies.safety.intro', 'policies.safety.statement', 'policies.safety.image']], ['Commitments', ['policies.safety.points']]] },
+  environmental: { t: 'Environmental Policy', u: '/environmental-policy', boxes: [['Banner', ['policies.environmental.banner']], ['Policy text & photo', ['policies.environmental.intro', 'policies.environmental.statement', 'policies.environmental.image']], ['Commitments', ['policies.environmental.points']]] },
+  sustainability: { t: 'Sustainability Policy', u: '/sustainability-policy', boxes: [['Banner', ['policies.sustainability.banner']], ['Policy text & photo', ['policies.sustainability.intro', 'policies.sustainability.statement', 'policies.sustainability.image']], ['Commitments', ['policies.sustainability.points']]] },
+  team: { t: 'Team History', u: '/team-history', boxes: [['Banner', ['teamPage.banner']], ['Intro text', ['teamPage.intro']], ['Milestones', ['teamPage.milestones']], ['Team members (optional)', ['teamPage.team']]] },
+  services: { t: 'Services', u: '/services', boxes: [['Banner', ['servicesPage.banner']], ['Intro text', ['servicesPage.intro']]], note: 'The services themselves are managed under Services.' },
+  projects: { t: 'Projects', u: '/projects', boxes: [['Banner', ['projects.banner']], ['Intro text', ['projects.intro']]], note: 'The projects themselves are managed under Projects.' },
+  news: { t: 'News & Media', u: '/news', boxes: [['Banner', ['news.banner']], ['Intro text', ['news.intro']]], note: 'News posts are managed under News & Media.' },
+  careers: { t: 'Careers', u: '/careers', boxes: [['Banner', ['careers.banner']], ['Intro text', ['careers.intro']], ['Benefits', ['careers.benefits']], ['Applications', ['careers.applyEmail']]], note: 'Job openings are managed under Careers.' },
+  contact: { t: 'Contact Us', u: '/contact', boxes: [['Banner', ['contactPage.banner']], ['Page text', ['contactPage.intro', 'contactPage.hours', 'contactPage.formTitle', 'contactPage.successText']]], note: 'Phones, email and address come from Settings and Footer.' }
+};
+const LABELS = [["requestQuote", "Services page: quote button", "Request a quote ›"], ["viewAllProjects", "Home: “view all projects” button", "View all projects"], ["applyNow", "Careers: apply button", "Apply Now ›"], ["openPositions", "Careers: openings heading", "Open Positions"], ["ourValues", "Vision page: values heading", "Our values"], ["ourTeam", "Team page: team heading", "Our team"], ["readMore", "News: “read more” link", "Read more"], ["showLess", "News: “show less” link", "Show less"], ["filterAll", "Projects: “All” filter", "All"], ["phoneLabel", "Label before phone numbers", "Phone"], ["emailLabel", "Label before email", "Email"], ["officeLabel", "Label before office address (home)", "Office"], ["addressLabel", "Contact page: address heading", "Address"], ["hoursLabel", "Contact page: working hours heading", "Working hours"], ["sendEnquiry", "Home form: send button", "Send enquiry"], ["formName", "Form: name placeholder", "Your name"], ["formContact", "Home form: email or phone placeholder", "Email or phone"], ["formMessage", "Home form: message placeholder", "What do you need installed or maintained?"], ["sendMessage", "Contact form: send button", "Send Message ›"], ["formEmail", "Contact form: email placeholder", "Email"], ["formPhone", "Contact form: phone placeholder", "Phone"], ["formHelp", "Contact form: message placeholder", "How can we help?"], ["home", "Breadcrumb: first word", "Home"], ["backHome", "404 page: button", "Back to home ›"], ["notFoundTitle", "404 page: heading", "Page not found"], ["notFoundText", "404 page: text", "The page you are looking for does not exist."]];
+const OBJ_ARR = new Set(['children', 'items', 'openings', 'social', 'links', 'stats', 'nav', 'certificates', 'team', 'milestones', 'values']);
+const TPL = { team: { name: '', role: '', image: '', text: '' }, certificates: { title: '', image: '', text: '' }, milestones: { year: '', title: '', text: '' }, values: { title: '', text: '' }, children: { label: '', href: '' } };
+
+/* ============ form widgets ============ */
+function field(label, input, hint) { return h('div', { class: 'fld' }, h('label', {}, label), input, hint && h('p', { class: 'hint' }, hint)) }
+function textInput(o, k, type = 'text') { return h('input', { type, value: o[k] ?? '', oninput: e => { o[k] = e.target.value; markDirty() } }) }
+function areaInput(o, k, rows = 4) { return h('textarea', { rows, value: o[k] ?? '', oninput: e => { o[k] = e.target.value; markDirty() } }) }
+function listEditor(o, k) {
+  const box = h('div'); const arr = o[k] = o[k] || [];
+  const draw = () => {
+    box.replaceChildren(...arr.map((v, i) => h('div', { class: 'row' }, h('input', { type: 'text', value: v, oninput: e => { arr[i] = e.target.value; markDirty() } }),
+      h('button', { type: 'button', class: 'ib', title: 'Move up', onclick: () => { if (i) { [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]]; markDirty(); draw() } } }, '↑'),
+      h('button', { type: 'button', class: 'ib', title: 'Move down', onclick: () => { if (i < arr.length - 1) { [arr[i + 1], arr[i]] = [arr[i], arr[i + 1]]; markDirty(); draw() } } }, '↓'),
+      h('button', { type: 'button', class: 'ib x', title: 'Remove', onclick: () => { arr.splice(i, 1); markDirty(); draw() } }, '✕'))),
+      h('button', { type: 'button', class: 'button', onclick: () => { arr.push(''); markDirty(); draw(); box.querySelector('.row:last-of-type input')?.focus() } }, '+ Add'));
+  }; draw(); return box;
+}
+function imageControl(o, k) {
+  const pv = h('div', { class: 'imgbox', onclick: () => pick() }), rm = h('button', { type: 'button', class: 'button-link del', onclick: () => { o[k] = ''; markDirty(); paint() } }, 'Remove image');
+  const btn = h('button', { type: 'button', class: 'button', onclick: () => pick() }, 'Set image');
+  const paint = () => { const u = o[k]; pv.style.backgroundImage = u ? `url("${u}")` : ''; pv.classList.toggle('has', !!u); pv.textContent = u ? '' : 'No image selected'; btn.textContent = u ? 'Replace image' : 'Set image'; rm.hidden = !u };
+  const pick = () => pickMedia(u => { o[k] = u; markDirty(); paint() }); paint();
+  return h('div', {}, pv, btn, ' ', rm);
+}
+const titleOf = (o, i) => { for (const v of Object.values(o)) if (typeof v === 'string' && v.trim() && !/^\/uploads|^#|^\/|^https?:|^\d{4}-\d\d-\d\d$/.test(v)) return v; return 'Item ' + (i + 1) };
+function rows(arr, key) {
+  const box = h('div'), tpl = () => arr[0] ? blankLike(arr[0]) : (TPL[key] || { title: '', text: '' });
+  const draw = () => {
+    box.replaceChildren(...arr.map((it, i) => {
+      const bd = h('div', { class: 'bd', hidden: true }, gGroup(it)), t = h('b', {}, titleOf(it, i));
+      bd.addEventListener('input', () => t.textContent = titleOf(it, i));
+      const mv = (d) => e => { e.stopPropagation(); const j = i + d; if (j < 0 || j >= arr.length) return; [arr[i], arr[j]] = [arr[j], arr[i]]; markDirty(); draw() };
+      return h('div', { class: 'acc' }, h('div', { class: 'hd', onclick: () => bd.hidden = !bd.hidden }, t,
+        h('button', { type: 'button', class: 'ib', title: 'Move up', onclick: mv(-1) }, '↑'), h('button', { type: 'button', class: 'ib', title: 'Move down', onclick: mv(1) }, '↓'),
+        h('button', { type: 'button', class: 'ib x', title: 'Remove', onclick: e => { e.stopPropagation(); if (confirm('Remove this item?')) { arr.splice(i, 1); markDirty(); draw() } } }, '✕')), bd);
+    }), h('button', { type: 'button', class: 'button', onclick: () => { const n = tpl(); arr.push(n); markDirty(); draw(); box.querySelector('.acc:last-of-type .hd').click() } }, '+ Add new'));
+  }; draw(); return box;
+}
+const blankLike = o => Array.isArray(o) ? [] : (o && typeof o === 'object') ? Object.fromEntries(Object.entries(o).map(([k, v]) => [k, blankLike(v)])) : '';
+function gField(o, k) {
+  const v = o[k], lab = nice(k);
+  if (Array.isArray(v)) return h('div', { class: 'full' }, h('h4', {}, lab), (v.length ? typeof v[0] === 'object' : OBJ_ARR.has(k)) ? rows(v, k) : listEditor(o, k));
+  if (v && typeof v === 'object') return h('div', { class: 'full' }, h('h4', {}, lab), gGroup(v));
+  if (typeof v === 'boolean') return h('div', { class: 'fld' }, h('label', {}, h('input', { type: 'checkbox', checked: v, onchange: e => { o[k] = e.target.checked; markDirty() } }), ' ' + lab))
+  if (/image|logo/i.test(k)) return h('div', { class: 'full fld' }, h('label', {}, lab), imageControl(o, k));
+  const long = /^(text|description|body|summary|intro|details|successText|statement|message)$/.test(k) || String(v ?? '').length > 80;
+  return h('div', { class: 'fld' + (long ? ' full' : '') }, h('label', {}, lab), long ? areaInput(o, k, 3) : textInput(o, k));
+}
+function gGroup(o) { return h('div', { class: 'grid2' }, Object.keys(o).map(k => gField(o, k))) }
+function box(title, ...kids) { return h('div', { class: 'postbox' }, h('h2', {}, title), h('div', { class: 'in' }, ...kids)) }
+function resolve(path) { const p = path.split('.'), key = p.pop(); let o = data; p.forEach(x => o = o[x]); return [o, key] }
+
+/* ============ media ============ */
+function modal(title, body, foot) {
+  const m = $('#modal'); const close = () => { m.hidden = true; m.replaceChildren() };
+  m.replaceChildren(h('div', { class: 'mbox' }, h('h2', {}, title, h('button', { class: 'button-link', style: 'text-decoration:none;font-size:20px', onclick: close }, '×')), h('div', { class: 'mb' }, body), foot && h('div', { class: 'mf' }, foot)));
+  m.onclick = e => { if (e.target === m) close() }; m.hidden = false; return close;
+}
+async function uploadFiles(files) {
+  let n = 0; for (const f of files) { try { await api('/api/upload', { method: 'POST', headers: { 'Content-Type': f.type }, body: f }); n++ } catch (e) { toast(f.name + ': ' + e.message, false) } } return n;
+}
+async function pickMedia(cb) {
+  let chosen = null, closeFn; const grid = h('div', { class: 'grid-media' }), sel = h('button', { class: 'button-primary', disabled: true, onclick: () => { cb(chosen); closeFn() } }, 'Select image');
+  const fi = h('input', { type: 'file', accept: 'image/*', multiple: true, hidden: true, onchange: async () => { await uploadFiles([...fi.files]); load() } });
+  const load = async () => { const list = await api('/api/media'); grid.replaceChildren(...(list.length ? list.map(m => h('div', { class: 'att' + (m.url === chosen ? ' sel' : ''), style: `background-image:url("${m.url}")`, title: m.name, onclick: e => { chosen = m.url; sel.disabled = false; grid.querySelectorAll('.att').forEach(x => x.classList.remove('sel')); e.currentTarget.classList.add('sel') } })) : [h('p', { class: 'dim' }, 'No images yet. Upload your first one.')])) };
+  closeFn = modal('Select image', h('div', {}, h('p', {}, h('button', { class: 'button', onclick: () => fi.click() }, 'Upload files'), fi), grid), sel); load();
+}
+async function mediaScreen() {
+  const list = await api('/api/media'), fi = h('input', { type: 'file', accept: 'image/*', multiple: true, hidden: true, onchange: async () => { const n = await uploadFiles([...fi.files]); notice(n + ' file(s) uploaded.'); route() } });
+  const grid = h('div', { class: 'grid-media' }, list.map(m => h('div', { class: 'att', style: `background-image:url("${m.url}")`, title: m.name, onclick: () => {
+    const url = location.origin + m.url; const close = modal('Image details', h('div', {}, h('img', { src: m.url, style: 'max-width:100%;max-height:50vh;display:block;margin:0 auto 14px;border:1px solid #dcdcde' }), h('p', {}, h('b', {}, 'File: '), m.name, ' · ', Math.round(m.size / 1024) + ' KB · ', new Date(m.date).toLocaleDateString()), h('input', { type: 'text', readOnly: true, value: url, style: 'width:100%', onfocus: e => e.target.select() })),
+      h('span', {}, h('button', { class: 'button del', onclick: async () => { if (confirm('Delete this file permanently? Pages using it will show a blank image.')) { await api('/api/media/' + encodeURIComponent(m.name), { method: 'DELETE' }); close(); notice('File deleted.'); route() } } }, 'Delete permanently'), ' ', h('button', { class: 'button', onclick: () => close() }, 'Close')));
+  } })));
+  return page('Media Library', [h('a', { class: 'page-title-action', onclick: () => fi.click() }, 'Add New'), fi], list.length ? grid : h('p', { class: 'dim' }, 'Your library is empty. Click “Add New” to upload photos (JPG, PNG or WEBP).'));
+}
+
+/* ============ page frame ============ */
+function page(title, actions, ...body) {
+  const n = flash; flash = null;
+  return h('div', { class: 'wrap' }, h('h1', { class: 'wp-heading' }, title, ...(actions || [])),
+    n && h('div', { class: 'notice ' + (n.t || '') }, h('p', { style: 'margin:0' }, n.m), h('button', { class: 'x', onclick: e => e.target.parentNode.remove() }, '×')), ...body);
+}
+const mount = el => { $('#content').replaceChildren(el); scrollTo(0, 0) };
+const go = hash => { if (location.hash === hash) route(); else location.hash = hash };
+async function doSave(msg, after) { try { await save(); notice(msg); after ? after() : route() } catch (e) { toast(e.message, false) } }
+
+/* ============ screens ============ */
+async function dashboard() {
+  let enq = []; try { enq = await api('/api/enquiries'); enqCount = enq.length } catch {}
+  const cnt = k => TYPES[k].arr().length, sample = Object.values(TYPES).reduce((n, T) => n + T.arr().filter(x => /\(sample\)/i.test(x.title)).length, 0);
+  const checks = [[!!data.seo.siteUrl, 'Website address is set (needed for Google)', 'Set it in Settings', '#/settings', 'Website address is missing'], [!!data.seo.defaultImage, 'Share image is set', 'Add one in Settings', '#/settings', 'No share image for WhatsApp/Facebook previews'], [sample === 0, 'No sample content left', 'Review items marked “(sample)”', '#/services', sample + ' sample item(s) are still live']];
+  const link = (t, hh) => h('a', { href: hh }, t);
+  const welcome = h('div', { class: 'welcome' }, h('h2', {}, 'Welcome to your website admin'), h('p', {}, 'Everything on your website can be edited from here.'), h('div', { class: 'wcols' },
+    h('div', {}, h('h3', {}, 'Get started'), h('a', { class: 'button button-primary button-large', href: '#/pages/home' }, 'Edit the homepage'), h('p', {}, 'or ', link('add a project', '#/projects/new'))),
+    h('div', {}, h('h3', {}, 'Next steps'), h('ul', {}, h('li', {}, link('Add a new service', '#/services/new')), h('li', {}, link('Add a project', '#/projects/new')), h('li', {}, link('Write a news post', '#/news/new')), h('li', {}, link('Post a job opening', '#/careers/new')))),
+    h('div', {}, h('h3', {}, 'More actions'), h('ul', {}, h('li', {}, link('Upload photos', '#/media')), h('li', {}, link('Change menu links', '#/menus')), h('li', {}, link('Update phone & email', '#/settings')), h('li', {}, link('Change your password', '#/profile'))))));
+  const glance = box('At a Glance', h('ul', { class: 'glance' }, ...Object.entries(TYPES).map(([k, T]) => h('li', {}, h('a', { href: '#/' + k }, h('b', {}, cnt(k)), cnt(k) === 1 ? T.s : T.p))), h('li', {}, h('a', { href: '#/enquiries' }, h('b', {}, enq.length), 'Enquiries'))));
+  const health = box('Website Health', h('ul', { class: 'health' }, checks.map(([ok, good, fix, hh, bad]) => h('li', {}, h('span', { class: ok ? 'ok' : 'warn' }, ok ? '✔' : '⚠'), h('span', {}, ok ? good : bad + ' — ', ok ? '' : link(fix, hh))))));
+  const recent = box('Recent Enquiries', enq.length ? h('ul', { class: 'health' }, enq.slice(0, 5).map(e => h('li', {}, h('span', {}, h('b', {}, e.name), ' · ', new Date(e.date).toLocaleDateString(), h('br'), (e.message || '').slice(0, 90))))) : h('p', { class: 'dim' }, 'No messages yet. They appear here when visitors use the contact form.'), enq.length ? h('p', {}, link('View all enquiries →', '#/enquiries')) : null);
+  const quick = box('Quick Add', h('p', {}, ...Object.entries(TYPES).map(([k, T]) => [h('a', { class: 'button', href: '#/' + k + '/new' }, '+ ' + T.s), ' '])));
+  return page('Dashboard', [], welcome, h('div', { class: 'dash' }, h('div', {}, glance, quick), h('div', {}, health, recent)));
+}
+
+const LS = {};
+function listScreen(type) {
+  const T = TYPES[type], st = LS[type] = LS[type] || { q: '', status: 'all', cat: '', pg: 1 }, arr = T.arr(), sel = new Set(), PER = 20;
+  const cats = [...new Set(arr.map(x => x.category).filter(Boolean))], pub = arr.filter(x => !x.draft).length, dr = arr.length - pub;
+  const match = it => (st.status === 'all' || (st.status === 'draft') === !!it.draft) && (!st.cat || it.category === st.cat) && (!st.q || Object.values(it).join(' ').toLowerCase().includes(st.q.toLowerCase()));
+  const all = arr.map((it, i) => ({ it, i })).filter(x => match(x.it)), pages = Math.max(1, Math.ceil(all.length / PER)); st.pg = Math.min(st.pg, pages);
+  const shown = all.slice((st.pg - 1) * PER, st.pg * PER), cols = T.cols, nth = (T.img ? 1 : 0) + 2 + cols.length;
+  const view = (id, label, n) => h('li', {}, h('a', { class: st.status === id ? 'cur' : '', href: 'javascript:void 0', onclick: () => { st.status = id; st.pg = 1; route() } }, label, ' ', h('span', { class: 'n' }, '(' + n + ')')));
+  const bulk = h('select', { class: 'nodirty' }, h('option', { value: '' }, 'Bulk actions'), h('option', { value: 'publish' }, 'Publish'), h('option', { value: 'draft' }, 'Move to draft'), h('option', { value: 'delete' }, 'Delete'));
+  const apply = h('button', { class: 'button', onclick: () => { if (!bulk.value || !sel.size) return toast('Select items and an action first', false); const idx = [...sel].sort((a, b) => b - a);
+    if (bulk.value === 'delete') { if (!confirm('Delete ' + idx.length + ' item(s)?')) return; idx.forEach(i => arr.splice(i, 1)) } else idx.forEach(i => arr[i].draft = bulk.value === 'draft'); doSave('Bulk action applied.') } }, 'Apply');
+  const search = h('input', { type: 'text', class: 'nodirty', placeholder: 'Search ' + T.p.toLowerCase(), value: st.q, onkeydown: e => { if (e.key === 'Enter') { st.q = e.target.value; st.pg = 1; route() } } });
+  const catSel = cats.length ? h('select', { class: 'nodirty', value: st.cat, onchange: e => { st.cat = e.target.value; st.pg = 1; route() } }, h('option', { value: '' }, 'All categories'), cats.map(c => h('option', { value: c }, c))) : null;
+  const chkAll = h('input', { type: 'checkbox', class: 'nodirty', onchange: e => document.querySelectorAll('.rowchk').forEach(c => { c.checked = e.target.checked; c.onchange() }) });
+  const head = () => h('tr', {}, h('td', { class: 'chk' }, chkAll.cloneNode(false)), T.img && h('th', {}, ''), h('th', {}, 'Title'), cols.map(c => h('th', { class: 'hide-sm' }, c[1])), h('th', {}, 'Status'));
+  const move = (i, d) => { const j = i + d; if (j < 0 || j >= arr.length) return; [arr[i], arr[j]] = [arr[j], arr[i]]; doSave('Order updated.') };
+  const tr = ({ it, i }) => h('tr', {}, h('td', { class: 'chk' }, h('input', { type: 'checkbox', class: 'rowchk nodirty', onchange: e => e.target.checked ? sel.add(i) : sel.delete(i) })),
+    T.img && h('td', { class: 'thumb' }, h('div', { class: 'th', style: it.image ? `background-image:url("${it.image}")` : '' })),
+    h('td', {}, h('a', { class: 'rt', href: `#/${type}/edit/${i}` }, it.title || '(no title)'), it.draft && h('span', { class: 'rt st' }, ' — Draft'),
+      h('div', { class: 'ra' }, h('a', { href: `#/${type}/edit/${i}` }, 'Edit'), ' | ', h('button', { class: 'button-link', onclick: () => { const c = JSON.parse(JSON.stringify(it)); c.title += ' (copy)'; c.draft = true; arr.splice(i + 1, 0, c); doSave('Duplicated as a draft.') } }, 'Duplicate'), ' | ',
+        h('button', { class: 'button-link', onclick: () => move(i, -1) }, 'Move up'), ' | ', h('button', { class: 'button-link', onclick: () => move(i, 1) }, 'Move down'), ' | ', h('button', { class: 'button-link del', onclick: () => { if (confirm('Delete “' + (it.title || 'this item') + '”?')) { arr.splice(i, 1); doSave(T.s + ' deleted.') } } }, 'Delete'))),
+    cols.map(c => h('td', { class: 'hide-sm' }, String(it[c[0]] ?? '').slice(0, c[0] === 'description' ? 90 : 60))), h('td', {}, it.draft ? 'Draft' : 'Published'));
+  const pager = h('div', { class: 'pagi' }, h('span', { class: 'dim' }, all.length + ' item' + (all.length === 1 ? '' : 's')), pages > 1 && [h('button', { class: 'button', disabled: st.pg <= 1, onclick: () => { st.pg--; route() } }, '‹'), h('span', {}, st.pg + ' of ' + pages), h('button', { class: 'button', disabled: st.pg >= pages, onclick: () => { st.pg++; route() } }, '›')]);
+  const table = h('table', { class: 'wp' }, h('thead', {}, head()), h('tbody', {}, shown.length ? shown.map(tr) : h('tr', { class: 'empty-row' }, h('td', { colspan: nth + 1 }, 'No ' + T.p.toLowerCase() + ' found. ', h('a', { href: `#/${type}/new` }, 'Add one now.')))), h('tfoot', {}, head()));
+  table.querySelectorAll('thead .chk input,tfoot .chk input').forEach(c => c.onchange = e => table.querySelectorAll('.rowchk').forEach(x => { x.checked = e.target.checked; x.onchange() }));
+  return page(T.p, [h('a', { class: 'page-title-action', href: `#/${type}/new` }, 'Add New')],
+    h('ul', { class: 'subsubsub' }, view('all', 'All', arr.length), view('publish', 'Published', pub), view('draft', 'Draft', dr)),
+    h('div', { class: 'tablenav' }, h('div', { class: 'l' }, bulk, apply), h('div', { class: 'r' }, catSel, search, h('button', { class: 'button', onclick: () => { st.q = search.value; st.pg = 1; route() } }, 'Search'))), table, h('div', { class: 'tablenav' }, h('div', { class: 'l' }), h('div', { class: 'r' }, pager)));
+}
+
+function editItem(type, id) {
+  const T = TYPES[type], arr = T.arr(), isNew = id === 'new', item = isNew ? (tmpNew[type] = tmpNew[type] || T.def()) : arr[+id];
+  if (!item) return page('Not found', [], h('p', {}, 'That item no longer exists. ', h('a', { href: '#/' + type }, '← Back to ' + T.p)));
+  const cats = [...new Set(arr.map(x => x.category).filter(Boolean))], dl = h('datalist', { id: 'cats' }, cats.map(c => h('option', { value: c })));
+  const fl = T.fields.map(([k, t, l, x]) => {
+    let f;
+    if (t === 'textarea') f = field(l, areaInput(item, k, x === 'tall' ? 12 : 5));
+    else if (t === 'list') f = field(l, listEditor(item, k), 'One point per line. Shown as bullets on the homepage and a checklist on the Services page.');
+    else if (t === 'select') { const sl = h('select', { onchange: e => { item[k] = e.target.value; markDirty() } }, x.map(([v, n]) => h('option', { value: v }, n))); sl.value = item[k] || x[0][0]; f = field(l, sl) }
+    else { const i = textInput(item, k, t === 'date' ? 'date' : 'text'); if (x === 'cats') i.setAttribute('list', 'cats'); f = field(l, i) }
+    if (t === 'textarea' || t === 'list') f.classList.add('full'); return f;
+  });
+  const status = h('select', { onchange: e => { item.draft = e.target.value === 'draft'; markDirty() } }, h('option', { value: 'publish' }, 'Published'), h('option', { value: 'draft' }, 'Draft'));
+  status.value = item.draft ? 'draft' : 'publish';
+  const update = h('button', { class: 'button button-primary button-large', onclick: async () => {
+    if (!String(item.title).trim()) return toast('Please add a title first', false);
+    if (isNew) { arr.push(item); delete tmpNew[type]; await doSave(T.s + ' added.', () => go('#/' + type)) } else doSave(T.s + ' updated.') } }, isNew ? 'Add ' + T.s : 'Update');
+  const side = [h('div', { class: 'postbox pub' }, h('h2', {}, 'Publish'), h('div', { class: 'misc' }, h('label', {}, 'Status: ', status), h('p', { class: 'hint', style: 'margin:0' }, 'Drafts are saved but hidden from the website.')),
+    h('div', { class: 'foot' }, isNew ? h('a', { href: '#/' + type }, 'Cancel') : h('button', { class: 'button-link del', onclick: () => { if (confirm('Delete this ' + T.s.toLowerCase() + '?')) { arr.splice(+id, 1); doSave(T.s + ' deleted.', () => go('#/' + type)) } } }, 'Delete'), update))];
+  if (T.img) side.push(box('Featured image', imageControl(item, 'image'), h('p', { class: 'hint' }, 'Shown on cards and pages. Landscape photos work best.')));
+  return page(isNew ? 'Add New ' + T.s : 'Edit ' + T.s, [h('a', { class: 'page-title-action', href: '#/' + type }, '← All ' + T.p)],
+    h('div', { class: 'cols' }, h('div', {}, h('input', { class: 'titlebox', placeholder: 'Add title', value: item.title, oninput: e => { item.title = e.target.value; markDirty() } }), box('Details', dl, h('div', { class: 'grid2' }, fl))), h('div', {}, side)));
+}
+
+function seoBox(pg) {
+  const s = data.seo.pages[pg], P = PAGES[pg], base = (data.seo.siteUrl || location.origin).replace(/\/$/, '');
+  const snip = h('div', { class: 'snip' }), ct = h('div', { class: 'cnt' }), cd = h('div', { class: 'cnt' });
+  const upd = () => { snip.replaceChildren(h('div', { class: 'u' }, base + P.u), h('div', { class: 't' }, s.title || P.t), h('div', { class: 'd' }, s.description || 'No description yet.'));
+    ct.textContent = (s.title || '').length + ' / 60 characters'; ct.className = 'cnt' + ((s.title || '').length > 60 ? ' over' : ''); cd.textContent = (s.description || '').length + ' / 160 characters'; cd.className = 'cnt' + ((s.description || '').length > 160 ? ' over' : '') };
+  upd();
+  return box('Search engine listing (SEO)', field('Page title', h('input', { type: 'text', value: s.title || '', oninput: e => { s.title = e.target.value; markDirty(); upd() } })), ct,
+    h('div', { style: 'margin-top:10px' }, field('Description', h('textarea', { rows: 3, value: s.description || '', oninput: e => { s.description = e.target.value; markDirty(); upd() } }))), cd, h('p', { class: 'hint' }, 'Preview of how this page may look on Google:'), snip);
+}
+function layoutBox() {
+  const l = data.layout.home, L = { hero: 'Hero banner & stat cards', services: 'Services', about: 'Welcome block (with qualities)', process: 'How a project runs', sectors: 'Sectors (pills)', projects: 'Selected projects', contact: 'Contact section with form', why: 'Why choose us (separate block)', licence: 'Licence details', cta: 'Quote banner' }, wrap = h('div');
+  const draw = () => wrap.replaceChildren(...l.map((o, i) => h('div', { class: 'lrow' }, h('input', { type: 'checkbox', id: 'l' + i, checked: o.visible !== false, onchange: e => { o.visible = e.target.checked; markDirty() } }), h('label', { for: 'l' + i }, L[o.section] || nice(o.section)),
+    h('button', { type: 'button', class: 'ib', onclick: () => { if (i) { [l[i - 1], l[i]] = [l[i], l[i - 1]]; markDirty(); draw() } } }, '↑'), h('button', { type: 'button', class: 'ib', onclick: () => { if (i < l.length - 1) { [l[i + 1], l[i]] = [l[i], l[i + 1]]; markDirty(); draw() } } }, '↓'))));
+  draw(); return h('div', {}, wrap, h('p', { class: 'hint' }, 'Untick a section to hide it from the homepage. Its content is kept.'));
+}
+function pagesList() {
+  return page('Pages', [], h('table', { class: 'wp' }, h('thead', {}, h('tr', {}, h('th', {}, 'Title'), h('th', { class: 'hide-sm' }, 'Address'), h('th', { class: 'hide-sm' }, 'Search title'))),
+    h('tbody', {}, Object.entries(PAGES).map(([k, P]) => h('tr', {}, h('td', {}, h('a', { class: 'rt', href: '#/pages/' + k }, P.t), h('div', { class: 'ra' }, h('a', { href: '#/pages/' + k }, 'Edit'), ' | ', h('a', { href: P.u, target: '_blank' }, 'View'))), h('td', { class: 'hide-sm' }, P.u), h('td', { class: 'hide-sm' }, (data.seo.pages[k] || {}).title || '—'))))));
+}
+function pageEdit(pg) {
+  const P = PAGES[pg]; if (!P) return page('Not found', []);
+  const boxes = P.boxes.map(([t, paths]) => box(t, ...paths.map(p => { if (p === '@layout') return layoutBox(); const [o, k] = resolve(p), v = o[k];
+    if (v && typeof v === 'object' && !Array.isArray(v)) return gGroup(v); if (Array.isArray(v)) return gField(o, k); return h('div', { class: 'grid2' }, gField(o, k)) })));
+  const side = h('div', {}, h('div', { class: 'postbox pub' }, h('h2', {}, 'Update'), P.note && h('div', { class: 'misc' }, h('p', { class: 'hint', style: 'margin:0' }, P.note)), h('div', { class: 'foot' }, h('a', { href: P.u, target: '_blank' }, 'View page ↗'), h('button', { class: 'button button-primary button-large', onclick: () => doSave(P.t + ' updated.') }, 'Update'))));
+  return page('Edit Page: ' + P.t, [h('a', { class: 'page-title-action', href: '#/pages' }, '← All Pages')], h('div', { class: 'cols' }, h('div', {}, ...boxes, seoBox(pg)), side));
+}
+function formScreen(title, boxesFn, msg) {
+  return page(title, [], h('div', { class: 'cols' }, h('div', {}, ...boxesFn()), h('div', {}, h('div', { class: 'postbox pub' }, h('h2', {}, 'Save'), h('div', { class: 'foot', style: 'justify-content:flex-end' }, h('button', { class: 'button button-primary button-large', onclick: () => doSave(msg) }, 'Save Changes'))))));
+}
+async function enquiries() {
+  const list = await api('/api/enquiries'); enqCount = list.length; renderMenu(); const sel = new Set();
+  const del = ids => { if (!ids.length || !confirm('Delete ' + ids.length + ' enquir' + (ids.length > 1 ? 'ies' : 'y') + '?')) return; Promise.all(ids.map(id => api('/api/enquiries/' + id, { method: 'DELETE' }))).then(() => { notice('Deleted.'); route() }) };
+  const t = h('table', { class: 'wp' }, h('thead', {}, h('tr', {}, h('td', { class: 'chk' }, h('input', { type: 'checkbox', onchange: e => t.querySelectorAll('.rc').forEach(c => { c.checked = e.target.checked; c.onchange() }) })), h('th', {}, 'From'), h('th', {}, 'Message'), h('th', { class: 'hide-sm' }, 'Received'))),
+    h('tbody', {}, list.length ? list.map(e => h('tr', {}, h('td', { class: 'chk' }, h('input', { type: 'checkbox', class: 'rc', onchange: x => x.target.checked ? sel.add(e.id) : sel.delete(e.id) })),
+      h('td', {}, h('b', {}, e.name), e.email && h('div', {}, h('a', { href: 'mailto:' + e.email }, e.email)), e.phone && h('div', {}, h('a', { href: 'tel:' + e.phone.replace(/[^+\d]/g, '') }, e.phone))),
+      h('td', { style: 'white-space:pre-wrap' }, e.message, h('div', { class: 'ra' }, e.email && [h('a', { href: 'mailto:' + e.email + '?subject=Re: your enquiry' }, 'Reply'), ' | '], h('button', { class: 'button-link del', onclick: () => del([e.id]) }, 'Delete'))), h('td', { class: 'hide-sm' }, new Date(e.date).toLocaleString()))) : h('tr', { class: 'empty-row' }, h('td', { colspan: 4 }, 'No enquiries yet.'))));
+  return page('Enquiries', [], h('div', { class: 'tablenav' }, h('div', { class: 'l' }, h('button', { class: 'button', onclick: () => del([...sel]) }, 'Delete selected'))), t);
+}
+function profile() {
+  const a = h('input', { type: 'password', autocomplete: 'off' }), b = h('input', { type: 'password', autocomplete: 'off' }), c = h('input', { type: 'password', autocomplete: 'off' });
+  return page('Your Profile', [], h('div', { class: 'cols one' }, box('Account', h('p', {}, 'Username: ', h('b', {}, 'admin')), h('h4', {}, 'Change password'), h('div', { class: 'grid2' }, field('Current password', a), field('New password (at least 8 characters)', b), field('Repeat new password', c)),
+    h('p', { class: 'hint' }, 'You will stay logged in here; other devices are signed out.'),
+    h('button', { class: 'button button-primary', onclick: async () => { if (b.value !== c.value) return toast('New passwords do not match', false); try { await api('/api/password', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ current: a.value, next: b.value }) }); a.value = b.value = c.value = ''; toast('Password updated') } catch (e) { toast(e.message, false) } } }, 'Update Password'))));
+}
+
+/* ============ menu, adminbar, router ============ */
+const MENU = [['dashboard', 'Dashboard', 'dash', '#/dashboard', []], ['pages', 'Pages', 'page', '#/pages', [['All Pages', '#/pages']]],
+  ['services', 'Services', 'tool', '#/services', [['All Services', '#/services'], ['Add New', '#/services/new']]], ['projects', 'Projects', 'work', '#/projects', [['All Projects', '#/projects'], ['Add New', '#/projects/new']]],
+  ['news', 'News & Media', 'news', '#/news', [['All Posts', '#/news'], ['Add New', '#/news/new']]], ['careers', 'Careers', 'people', '#/careers', [['All Openings', '#/careers'], ['Add New', '#/careers/new']]],
+  ['media', 'Media', 'img', '#/media', [['Library', '#/media']]], ['enquiries', 'Enquiries', 'chat', '#/enquiries', []], '-',
+  ['appearance', 'Appearance', 'brush', '#/menus', [['Menus', '#/menus'], ['Footer', '#/footer']]], ['settings', 'Settings', 'gear', '#/settings', [['General', '#/settings']]], ['users', 'Profile', 'user', '#/profile', [['Your Profile', '#/profile']]]];
+const SECTION = { menus: 'appearance', footer: 'appearance' };
+function renderMenu() {
+  const cur = (location.hash.slice(2).split('/')[0]) || 'dashboard', sec = SECTION[cur] || (cur === 'profile' ? 'users' : cur);
+  $('#menu').replaceChildren(...MENU.map(m => { if (m === '-') return h('li', { class: 'sep' }); const [id, label, ic, href, sub] = m, on = id === sec;
+    return h('li', { class: 'mt' + (on ? ' cur' : '') }, h('a', { href }, ico(ic), h('span', {}, label), id === 'enquiries' && enqCount ? h('span', { class: 'bubble' }, enqCount) : null),
+      sub.length > 0 && h('ul', { class: 'sub' }, sub.map(([l, hh]) => h('li', {}, h('a', { href: hh, class: location.hash === hh || (hh === href && location.hash.startsWith(href) && !location.hash.endsWith('/new')) ? 'on' : '' }, l))))) }));
+}
+function renderBar() {
+  $('#adminbar').replaceChildren(h('button', { class: 'ab', id: 'burger', onclick: () => document.body.classList.toggle('menuopen'), 'aria-label': 'Menu' }, ico('dash')),
+    h('a', { class: 'ab', href: '/', target: '_blank' }, ico('home'), h('span', {}, (data && data.site && data.site.name) || 'Site')),
+    h('div', { class: 'ab hide-sm', tabindex: 0 }, ico('plus'), 'New', h('div', { class: 'dd' }, Object.entries(TYPES).map(([k, T]) => h('a', { href: `#/${k}/new` }, T.s)))),
+    h('div', { class: 'grow' }), h('div', { class: 'ab', tabindex: 0 }, 'Howdy, admin ', ico('user'), h('div', { class: 'dd r' }, h('a', { href: '#/profile' }, 'Edit Profile'), h('a', { href: '#', onclick: e => { e.preventDefault(); logout() } }, 'Log Out'))));
+  $('#collapse').replaceChildren(h('span', { html: '<svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>' }), h('span', {}, 'Collapse menu'));
+}
+async function route() {
+  const parts = location.hash.slice(2).split('/'), [a, b, c] = parts; renderMenu(); document.body.classList.remove('menuopen');
+  if (b !== 'new') tmpNew = {};
+  try {
+    let el;
+    if (!a || a === 'dashboard') el = await dashboard();
+    else if (a === 'pages') el = b ? pageEdit(b) : pagesList();
+    else if (TYPES[a]) el = b === 'new' ? editItem(a, 'new') : b === 'edit' ? editItem(a, c) : listScreen(a);
+    else if (a === 'media') el = await mediaScreen();
+    else if (a === 'enquiries') el = await enquiries();
+    else if (a === 'menus') el = formScreen('Menus', () => [box('Main menu', h('p', { class: 'hint' }, 'Click an item to edit it. Add “Children” to create a dropdown.'), rows(data.nav, 'nav'))], 'Menu updated.');
+    else if (a === 'footer') el = formScreen('Footer', () => [box('Footer content', gGroup(data.footer))], 'Footer updated.');
+    else if (a === 'settings') el = formScreen('General Settings', () => [box('Site identity & contact', gGroup(data.site)), box('Buttons & labels (all fixed wording on the site)', h('p', { class: 'hint' }, 'Change the wording of buttons, headings and form hints. Leave as is if you are happy.'), h('div', { class: 'grid2' }, LABELS.map(([k, d]) => field(d, textInput(data.labels, k))))), box('Website address & sharing', h('div', { class: 'grid2' }, field('Website address (URL)', textInput(data.seo, 'siteUrl'), 'Your final address, e.g. https://yourdomain.com. Used by Google and link previews.'), field('Default share image', imageControl(data.seo, 'defaultImage'), 'Shown when your site is shared on WhatsApp or social media.')))], 'Settings saved.');
+    else if (a === 'profile') el = profile();
+    else el = page('Page not found', [], h('p', {}, h('a', { href: '#/dashboard' }, '← Back to dashboard')));
+    mount(el);
+  } catch (e) { mount(page('Something went wrong', [], h('div', { class: 'notice bad' }, e.message))) }
+}
+addEventListener('hashchange', async () => {
+  if (ignoreHash) { ignoreHash = false; return }
+  if (dirty) { if (!confirm('You have unsaved changes. Leave this page without saving?')) { ignoreHash = true; location.hash = prevHash; return } dirty = false; await loadData() }
+  prevHash = location.hash || '#/dashboard'; route();
+});
+addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = '' } });
+document.addEventListener('input', e => { if (e.target.closest('#modal') || e.target.classList.contains('nodirty')) return; dirty = true }, true);
+
+async function start() {
+  await loadData(); $('#login').hidden = true; $('#app').hidden = false; renderBar();
+  $('#collapse').onclick = () => document.body.classList.toggle('folded'); prevHash = location.hash || '#/dashboard'; dirty = false; route();
+  api('/api/enquiries').then(l => { enqCount = l.length; renderMenu() }).catch(() => {});
+}
+function logout() { if (token) fetch('/api/logout', { method: 'POST', headers: { Authorization: 'Bearer ' + token } }).catch(() => {}); sessionStorage.removeItem('t'); token = null; location.hash = ''; location.reload() }
+$('#lf').onsubmit = async e => {
+  e.preventDefault(); $('#err').textContent = '';
+  try { const r = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: $('#pw').value }) }); const j = await r.json(); if (!r.ok) throw new Error(j.error); token = j.token; sessionStorage.setItem('t', token); start() }
+  catch (x) { $('#err').textContent = x.message }
+};
+if (token) start().catch(() => { sessionStorage.removeItem('t'); token = null; $('#login').hidden = false; $('#app').hidden = true });
+</script></body></html>
