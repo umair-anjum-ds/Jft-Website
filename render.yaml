@@ -1,0 +1,25 @@
+# Render Blueprint - Dashboard > New > Blueprint > pick this repo.
+# NOTE: a persistent disk needs a PAID instance. Free instances wipe content, uploads,
+# enquiries and the admin password on every deploy/restart/spin-down.
+services:
+  - type: web
+    name: jft-website
+    runtime: node
+    plan: starter            # cheapest paid type; if Render rejects the name, pick the smallest paid type in the dashboard
+    region: frankfurt
+    branch: main             # only the main branch is deployed to production
+    autoDeploy: true
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: DATA_DIR
+        value: /var/data
+      - key: ADMIN_PASSWORD
+        sync: false          # you type it in the Render dashboard once; it is not stored in Git
+    disk:
+      name: jft-data
+      mountPath: /var/data
+      sizeGB: 1

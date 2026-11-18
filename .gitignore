@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# secrets & runtime data (never commit these)
+.env
+.env.*
+!.env.example
+data/auth.json
+data/enquiries.json
+
+# logs / OS / editor
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

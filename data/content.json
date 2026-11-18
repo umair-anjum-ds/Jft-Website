@@ -1,0 +1,816 @@
+{
+  "site": {
+    "name": "JFT",
+    "tagline": "Jzerat Alfhood Technical Services L.L.C.",
+    "phones": [
+      "+971 4 133 8286",
+      "056 411 4268"
+    ],
+    "email": "Jazeeraalfhood@gmail.com",
+    "social": [
+      {
+        "label": "YouTube",
+        "icon": "▶",
+        "href": "#"
+      },
+      {
+        "label": "Facebook",
+        "icon": "f",
+        "href": "#"
+      },
+      {
+        "label": "Instagram",
+        "icon": "◎",
+        "href": "#"
+      },
+      {
+        "label": "LinkedIn",
+        "icon": "in",
+        "href": "#"
+      },
+      {
+        "label": "X",
+        "icon": "X",
+        "href": "#"
+      },
+      {
+        "label": "WhatsApp",
+        "icon": "✆",
+        "href": "https://wa.me/971564114268"
+      }
+    ],
+    "logo": "",
+    "cta": {
+      "label": "Request a quote",
+      "href": "/contact"
+    },
+    "showTopBar": false
+  },
+  "nav": [
+    {
+      "label": "Home",
+      "href": "/",
+      "children": []
+    },
+    {
+      "label": "About Us",
+      "href": "/about",
+      "children": [
+        {
+          "label": "Company Profile",
+          "href": "/about"
+        },
+        {
+          "label": "Managing Director’s Message",
+          "href": "/directors-message"
+        },
+        {
+          "label": "Vision & Mission",
+          "href": "/vision-mission"
+        },
+        {
+          "label": "Accreditation",
+          "href": "/accreditation"
+        },
+        {
+          "label": "Quality Policy",
+          "href": "/quality-policy"
+        },
+        {
+          "label": "Health and Safety Policy",
+          "href": "/health-and-safety-policy"
+        },
+        {
+          "label": "Environmental Policy",
+          "href": "/environmental-policy"
+        },
+        {
+          "label": "Sustainability Policy",
+          "href": "/sustainability-policy"
+        }
+      ]
+    },
+    {
+      "label": "Services",
+      "href": "/services",
+      "children": []
+    },
+    {
+      "label": "Projects",
+      "href": "/projects",
+      "children": [
+        {
+          "label": "Our Projects",
+          "href": "/projects"
+        },
+        {
+          "label": "Team History",
+          "href": "/team-history"
+        }
+      ]
+    },
+    {
+      "label": "News & Media",
+      "href": "/news",
+      "children": []
+    },
+    {
+      "label": "Careers",
+      "href": "/careers",
+      "children": []
+    },
+    {
+      "label": "Contact Us",
+      "href": "/contact",
+      "children": []
+    }
+  ],
+  "hero": {
+    "image": "/uploads/1794985811111-ec6883f7.jpg",
+    "kicker": "Electromechanical Engineering",
+    "title": "End-to-end MEP, ELV and ICT solutions.",
+    "text": "JFT delivers integrated MEP, ELV, ICT, value-focused design, and expert supervision across the United Arab Emirates for dependable building-service solutions.",
+    "button1": "Contact us",
+    "button2": "See services",
+    "stats": [
+      {
+        "value": "MEP",
+        "label": "mechanical, electrical, plumbing"
+      },
+      {
+        "value": "ELV",
+        "label": "extra-low-voltage systems"
+      },
+      {
+        "value": "ICT",
+        "label": "networks and communications"
+      },
+      {
+        "value": "UAE",
+        "label": "wide project coverage"
+      }
+    ]
+  },
+  "about": {
+    "title": "Welcome to JFT",
+    "text": "Jzerat Alfhood Technical Services L.L.C. is an electromechanical engineering company in the UAE. We deliver integrated MEP, ELV and ICT systems, with value-focused design and expert supervision from first concept to handover.\n\nWe work with developers, consultants and main contractors on residential, commercial, industrial, retail and educational buildings.",
+    "image": "/uploads/1794989678313-0ff5e65e.jpg"
+  },
+  "services": {
+    "title": "Design. Deliver. Maintain.",
+    "items": [
+      {
+        "title": "Mechanical engineering, building systems and services",
+        "image": "/uploads/1794984788129-91a61f10.jpg",
+        "icon": "fan",
+        "description": "Cooling and ventilation built for UAE conditions.",
+        "points": [
+          "HVAC: split, VRF and chilled water",
+          "Ducting, insulation and ventilation",
+          "Testing, balancing and commissioning"
+        ]
+      },
+      {
+        "title": "Electrical engineering, building systems and services",
+        "image": "/uploads/1794985429281-0958f92f.webp",
+        "icon": "bolt",
+        "description": "Safe power and lighting for new builds and fit-outs.",
+        "points": [
+          "LV panels and distribution boards",
+          "Cabling, containment and earthing",
+          "Lighting and emergency lighting"
+        ]
+      },
+      {
+        "title": "Plumbing and drainage engineering, systems and services",
+        "image": "/uploads/1794985429260-8d6aee50.webp",
+        "icon": "drop",
+        "description": "Water supply and drainage that meets local code.",
+        "points": [
+          "Hot and cold water lines",
+          "Drainage, sanitary and pumps",
+          "Pressure testing and flushing"
+        ]
+      },
+      {
+        "title": "ELV and ICT engineering, building systems and services",
+        "image": "/uploads/1794985429271-abc21081.webp",
+        "icon": "monitor",
+        "description": "The low-voltage and data backbone of a smart building.",
+        "points": [
+          "Structured cabling and networks",
+          "CCTV, access control and intercom",
+          "PA, TV distribution and BMS"
+        ]
+      },
+      {
+        "title": "Electromechanical Equipment & Maintenance",
+        "image": "",
+        "description": "Installation and servicing of the mechanical and electrical equipment that keeps a building running.",
+        "points": [
+          "Pumps and motors",
+          "Equipment installation and commissioning",
+          "Routine servicing",
+          "Breakdown repairs"
+        ],
+        "icon": "wrench",
+        "draft": true
+      },
+      {
+        "title": "Interior Fit-Out, Finishing & Building Cleaning",
+        "image": "",
+        "description": "Complete interior finishing and upkeep, delivered by one team so every trade is coordinated.",
+        "points": [
+          "False ceilings and light partitions",
+          "Plaster, painting and wallpaper",
+          "Floor and wall tiling, carpentry and wood flooring",
+          "Engraving and ornamentation",
+          "Building cleaning services"
+        ],
+        "icon": "building",
+        "draft": true
+      }
+    ],
+    "intro": "One accountable team for the systems inside your building, from first design to long-term upkeep."
+  },
+  "why": {
+    "label": "Why Choose Us",
+    "title": "We Deliver",
+    "text": "Every job is planned, supervised and checked so the systems we install perform well on day one and stay dependable for years.",
+    "image": "/uploads/1794985811111-ec6883f7.jpg",
+    "items": [
+      {
+        "title": "Quality",
+        "text": "Rigorous checks at every stage, with test records before each trade closes up."
+      },
+      {
+        "title": "Safety",
+        "text": "Trained crews, permits to work and PPE on every site."
+      },
+      {
+        "title": "Maintenance strategy",
+        "text": "Preventive and corrective plans that keep systems reliable for the long term."
+      },
+      {
+        "title": "Sustainability",
+        "text": "Energy-efficient design and equipment choices that lower running costs."
+      }
+    ]
+  },
+  "sectors": {
+    "title": "Sectors we work in",
+    "text": "The systems differ by building type. Our approach to quality does not.",
+    "image": "/uploads/1794985811111-ec6883f7.jpg",
+    "items": [
+      {
+        "title": "Residential"
+      },
+      {
+        "title": "Commercial"
+      },
+      {
+        "title": "Industrial"
+      },
+      {
+        "title": "Retail"
+      },
+      {
+        "title": "Educational"
+      },
+      {
+        "title": "Hospitality"
+      }
+    ]
+  },
+  "licence": {
+    "title": "Licensed & Registered",
+    "items": [
+      {
+        "label": "Commercial Licence No.",
+        "value": "1155614"
+      },
+      {
+        "label": "Commercial Register No.",
+        "value": "2832409"
+      },
+      {
+        "label": "DCCI Membership No.",
+        "value": "679789"
+      },
+      {
+        "label": "Licence Valid Until",
+        "value": "20 Feb 2027"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready To Start Your Project?",
+    "button": "Get A Quote"
+  },
+  "footer": {
+    "address": "Office S1-0294, Dubai Investment Complex 1, Dubai, UAE",
+    "phones": [
+      "+971 4 133 8286",
+      "056 411 4268"
+    ],
+    "email": "Jazeeraalfhood@gmail.com",
+    "links": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "About Us",
+        "href": "/about"
+      },
+      {
+        "label": "Services",
+        "href": "/services"
+      },
+      {
+        "label": "Projects",
+        "href": "/projects"
+      },
+      {
+        "label": "News & Media",
+        "href": "/news"
+      },
+      {
+        "label": "Careers",
+        "href": "/careers"
+      },
+      {
+        "label": "Contact Us",
+        "href": "/contact"
+      }
+    ],
+    "copyright": "© 2026 Jzerat Alfhood Technical Services L.L.C. All rights reserved."
+  },
+  "aboutPage": {
+    "banner": {
+      "title": "Company Profile",
+      "subtitle": "Electromechanical engineering across the UAE",
+      "image": ""
+    },
+    "intro": {
+      "label": "Who We Are",
+      "title": "Jzerat Alfhood Technical Services",
+      "text": "JFT is a Dubai-licensed electromechanical engineering company. Our team handles mechanical, electrical, plumbing, ELV and ICT systems with value-focused design and expert supervision, so clients deal with one accountable partner from the first site visit to final handover.",
+      "image": ""
+    },
+    "mission": {
+      "title": "Our Mission",
+      "text": "To deliver safe, reliable and good-value building services that clients can depend on, on time and to specification."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "text": "To be the electromechanical engineering partner that property owners across the UAE call first for MEP, ELV and ICT systems."
+    },
+    "stats": [
+      {
+        "value": "12",
+        "label": "Licensed trades"
+      },
+      {
+        "value": "2023",
+        "label": "Licensed since"
+      },
+      {
+        "value": "UAE",
+        "label": "Service area"
+      },
+      {
+        "value": "1",
+        "label": "Point of contact"
+      }
+    ]
+  },
+  "servicesPage": {
+    "banner": {
+      "title": "Our Services",
+      "subtitle": "Design. Deliver. Maintain.",
+      "image": ""
+    },
+    "intro": "From air conditioning to interior finishing, every service below is covered by our Dubai commercial licence."
+  },
+  "projects": {
+    "banner": {
+      "title": "Our Projects",
+      "subtitle": "A selection of our recent work",
+      "image": ""
+    },
+    "intro": "Browse our completed work. New projects are added regularly.",
+    "items": [
+      {
+        "title": "Project name (sample)",
+        "category": "Commercial",
+        "location": "Location, UAE",
+        "year": "2025",
+        "image": "",
+        "description": "Electrical, HVAC, ELV. Replace this with a real project."
+      },
+      {
+        "title": "Project name (sample)",
+        "category": "Residential",
+        "location": "Location, UAE",
+        "year": "2025",
+        "image": "",
+        "description": "Plumbing, drainage. Replace this with a real project."
+      },
+      {
+        "title": "Project name (sample)",
+        "category": "Industrial",
+        "location": "Location, UAE",
+        "year": "2024",
+        "image": "",
+        "description": "MEP, ELV and ICT. Replace this with a real project."
+      }
+    ],
+    "homeTitle": "Selected projects",
+    "homeIntro": "A selection of our recent work across the UAE.",
+    "homeVideo": ""
+  },
+  "news": {
+    "banner": {
+      "title": "News & Media",
+      "subtitle": "Updates from JFT",
+      "image": ""
+    },
+    "intro": "Company news, completed work and helpful tips.",
+    "items": [
+      {
+        "title": "Welcome to the new JFT website (sample)",
+        "date": "2026-11-01",
+        "category": "Company News",
+        "image": "",
+        "summary": "We have launched our new website to make it easier to explore our services and contact us.",
+        "body": "Sample post. Edit or delete this in the admin panel and add your own news."
+      },
+      {
+        "title": "Keeping your AC efficient in summer (sample)",
+        "date": "2026-10-15",
+        "category": "Tips",
+        "image": "",
+        "summary": "Simple maintenance steps that help air conditioning run better and cost less.",
+        "body": "Sample post. Replace with your own advice or announcements."
+      }
+    ]
+  },
+  "careers": {
+    "banner": {
+      "title": "Careers",
+      "subtitle": "Join the JFT team",
+      "image": ""
+    },
+    "intro": "We are always looking for skilled, safety-minded people. Send your CV to apply.",
+    "benefits": [
+      "Stable, long-term work",
+      "Safety training and equipment",
+      "Opportunities to grow",
+      "Friendly, professional team"
+    ],
+    "applyEmail": "Jazeeraalfhood@gmail.com",
+    "openings": [
+      {
+        "title": "HVAC Technician (sample)",
+        "location": "Dubai",
+        "type": "Full time",
+        "description": "Install and maintain AC and ventilation systems. Edit or remove this opening in the admin panel."
+      },
+      {
+        "title": "Electrician (sample)",
+        "location": "Dubai",
+        "type": "Full time",
+        "description": "Electrical installation, repair and maintenance on site. Edit or remove this opening in the admin panel."
+      }
+    ]
+  },
+  "contactPage": {
+    "banner": {
+      "title": "Contact Us",
+      "subtitle": "Tell us about your project",
+      "image": ""
+    },
+    "intro": "Send us a message or call and we will get back to you.",
+    "hours": "Saturday to Thursday, 8:00 AM – 6:00 PM",
+    "formTitle": "Send us a message",
+    "successText": "Thank you! We have received your message and will contact you shortly."
+  },
+  "layout": {
+    "home": [
+      {
+        "section": "hero",
+        "visible": true
+      },
+      {
+        "section": "services",
+        "visible": true
+      },
+      {
+        "section": "about",
+        "visible": true
+      },
+      {
+        "section": "process",
+        "visible": true
+      },
+      {
+        "section": "sectors",
+        "visible": true
+      },
+      {
+        "section": "projects",
+        "visible": true
+      },
+      {
+        "section": "contact",
+        "visible": true
+      },
+      {
+        "section": "why",
+        "visible": false
+      },
+      {
+        "section": "licence",
+        "visible": false
+      },
+      {
+        "section": "cta",
+        "visible": false
+      }
+    ]
+  },
+  "seo": {
+    "siteUrl": "",
+    "defaultImage": "",
+    "pages": {
+      "home": {
+        "title": "JFT | MEP, ELV & ICT Building Services in Dubai, UAE",
+        "description": "JFT delivers integrated MEP, ELV, ICT, value-focused design and expert supervision across the UAE for dependable building-service solutions."
+      },
+      "about": {
+        "title": "Company Profile | JFT – Jzerat Alfhood Technical Services",
+        "description": "Learn about JFT, a Dubai-licensed electromechanical engineering company delivering MEP, ELV and ICT systems across the UAE."
+      },
+      "services": {
+        "title": "Our Services | AC, Electrical, Plumbing & Fit-Out | JFT",
+        "description": "AC and ventilation, electrical, plumbing, electromechanical, ELV & ICT, interior fit-out and cleaning services in Dubai and across the UAE."
+      },
+      "projects": {
+        "title": "Projects | JFT Building Services",
+        "description": "See recent MEP, ELV and fit-out projects completed by JFT for commercial, residential and industrial clients in the UAE."
+      },
+      "news": {
+        "title": "News & Media | JFT",
+        "description": "Company news, completed work and helpful tips from JFT, your building-services partner in the UAE."
+      },
+      "careers": {
+        "title": "Careers | Join the JFT Team",
+        "description": "Explore job openings at JFT in Dubai and send your CV to join our building-services team."
+      },
+      "contact": {
+        "title": "Contact Us | JFT Dubai – Request a Quote",
+        "description": "Contact JFT in Dubai for MEP, ELV and ICT engineering services. Call, email or send a message to request a quote."
+      },
+      "directors": {
+        "title": "Managing Director’s Message – JFT",
+        "description": "A message from the Managing Director of JFT about our approach to MEP, ELV and ICT services."
+      },
+      "vision": {
+        "title": "Vision & Mission | JFT",
+        "description": "The vision, mission and values that guide JFT’s electromechanical engineering work in the UAE."
+      },
+      "accreditation": {
+        "title": "Accreditation | JFT",
+        "description": "JFT’s commercial licence, register and Dubai Chamber of Commerce membership details."
+      },
+      "quality": {
+        "title": "Quality Policy | JFT",
+        "description": "How JFT plans, checks and documents its MEP, ELV and ICT work to meet the specification."
+      },
+      "safety": {
+        "title": "Health and Safety Policy | JFT",
+        "description": "JFT’s commitment to the health and safety of its people, clients and the public."
+      },
+      "environmental": {
+        "title": "Environmental Policy | JFT",
+        "description": "How JFT limits the environmental impact of its building-services work."
+      },
+      "sustainability": {
+        "title": "Sustainability Policy | JFT",
+        "description": "How JFT designs and maintains efficient building services that last."
+      },
+      "team": {
+        "title": "Team History | JFT",
+        "description": "The milestones and people behind JFT, a Dubai electromechanical engineering company."
+      }
+    }
+  },
+  "process": {
+    "title": "How a project runs",
+    "intro": "The same five steps on every job, large or small.",
+    "items": [
+      {
+        "title": "Survey",
+        "text": "We visit, review drawings and confirm scope."
+      },
+      {
+        "title": "Quote",
+        "text": "A clear price and programme, in writing."
+      },
+      {
+        "title": "Install",
+        "text": "Work by certified technicians, supervised on site."
+      },
+      {
+        "title": "Test",
+        "text": "Commissioning with documented results."
+      },
+      {
+        "title": "Hand over",
+        "text": "As-builts, manuals and maintenance plan."
+      }
+    ]
+  },
+  "contactHome": {
+    "title": "Tell us about your project",
+    "text": "Send the location, building type and drawings if you have them. We reply within one working day."
+  },
+  "directorPage": {
+    "banner": {
+      "title": "Managing Director’s Message",
+      "subtitle": "A word from our leadership",
+      "image": ""
+    },
+    "image": "",
+    "name": "Name Surname",
+    "role": "Managing Director",
+    "message": "Welcome to JFT. We started with a simple idea: building services should work properly from the first day and keep working for years.\n\nOur team combines careful design, certified technicians and close supervision on site, so clients deal with one accountable partner from survey to handover.\n\nThank you for considering JFT. We would be glad to hear about your project."
+  },
+  "visionPage": {
+    "banner": {
+      "title": "Vision & Mission",
+      "subtitle": "What guides our work",
+      "image": ""
+    },
+    "vision": {
+      "title": "Our Vision",
+      "text": "To be the electromechanical engineering partner that property owners across the UAE call first for MEP, ELV and ICT systems."
+    },
+    "mission": {
+      "title": "Our Mission",
+      "text": "To deliver safe, reliable and good-value building services, on time and to specification, with clear communication from survey to handover."
+    },
+    "values": [
+      {
+        "title": "Integrity",
+        "text": "Honest advice, clear prices and promises we keep."
+      },
+      {
+        "title": "Safety",
+        "text": "Nobody gets hurt, on our sites or in the buildings we serve."
+      },
+      {
+        "title": "Quality",
+        "text": "Work that is tested, documented and built to last."
+      },
+      {
+        "title": "Service",
+        "text": "Quick answers and dependable support after handover."
+      }
+    ]
+  },
+  "accreditationPage": {
+    "banner": {
+      "title": "Accreditation",
+      "subtitle": "Licences, registrations and memberships",
+      "image": ""
+    },
+    "intro": "JFT is licensed and registered in Dubai. Our official numbers are listed below, and any certificates or memberships can be added here.",
+    "certificates": []
+  },
+  "policies": {
+    "quality": {
+      "banner": {
+        "title": "Quality Policy",
+        "subtitle": "Doing it right the first time",
+        "image": ""
+      },
+      "intro": "JFT is committed to delivering work that meets the specification, the standards that apply and the client’s expectations.",
+      "statement": "We plan each job carefully, use approved materials and qualified people, and check our work before moving on. When something is not right, we fix it quickly and learn from it.",
+      "image": "",
+      "points": [
+        "Plan each job with a clear scope and programme",
+        "Use approved materials and qualified technicians",
+        "Inspect and test work before each stage is closed",
+        "Record test results and hand them over with the project",
+        "Listen to client feedback and correct problems quickly"
+      ]
+    },
+    "safety": {
+      "banner": {
+        "title": "Health and Safety Policy",
+        "subtitle": "Everyone goes home safe",
+        "image": ""
+      },
+      "intro": "The health and safety of our people, our clients and the public comes before programme or profit.",
+      "statement": "We assess risks before work starts, train our crews, and give them the right equipment. Anyone can stop work that looks unsafe.",
+      "image": "",
+      "points": [
+        "Risk assessments and permits to work before starting",
+        "Trained crews with the right protective equipment",
+        "Safe handling of tools, electricity and work at height",
+        "Reporting and learning from incidents and near misses",
+        "Clear site rules for staff and visitors"
+      ]
+    },
+    "environmental": {
+      "banner": {
+        "title": "Environmental Policy",
+        "subtitle": "Responsible on every site",
+        "image": ""
+      },
+      "intro": "JFT works to limit the impact of its activities on the environment.",
+      "statement": "We reduce waste, handle materials responsibly and choose efficient equipment wherever the project allows.",
+      "image": "",
+      "points": [
+        "Reduce waste and recycle packaging and offcuts",
+        "Choose energy-efficient equipment where possible",
+        "Dispose of refrigerants, oils and materials responsibly",
+        "Keep sites clean and protect nearby areas",
+        "Comply with UAE environmental requirements"
+      ]
+    },
+    "sustainability": {
+      "banner": {
+        "title": "Sustainability Policy",
+        "subtitle": "Building services for the long term",
+        "image": ""
+      },
+      "intro": "JFT designs and maintains systems that save energy and water and last longer.",
+      "statement": "We recommend efficient equipment, plan maintenance to extend equipment life, and review our own practices regularly.",
+      "image": "",
+      "points": [
+        "Design systems that lower energy and water use",
+        "Recommend efficient equipment and controls",
+        "Plan maintenance to extend equipment life",
+        "Support local suppliers and skilled jobs",
+        "Review our practices regularly"
+      ]
+    }
+  },
+  "teamPage": {
+    "banner": {
+      "title": "Team History",
+      "subtitle": "Our journey so far",
+      "image": ""
+    },
+    "intro": "JFT is a young company with experienced people. Here are some milestones on our journey.",
+    "milestones": [
+      {
+        "year": "2023",
+        "title": "Licensed in Dubai",
+        "text": "JFT received its commercial licence in Dubai and joined the Dubai Chamber of Commerce and Industry."
+      },
+      {
+        "year": "2026",
+        "title": "Commercial register certificate",
+        "text": "Our commercial register certificate was issued, completing our company registration."
+      },
+      {
+        "year": "Today",
+        "title": "Serving the UAE",
+        "text": "We deliver MEP, ELV and ICT services with design and supervision for clients across the UAE."
+      }
+    ],
+    "team": []
+  },
+  "labels": {
+    "requestQuote": "Request a quote ›",
+    "viewAllProjects": "View all projects",
+    "applyNow": "Apply Now ›",
+    "openPositions": "Open Positions",
+    "ourValues": "Our values",
+    "ourTeam": "Our team",
+    "readMore": "Read more",
+    "showLess": "Show less",
+    "filterAll": "All",
+    "phoneLabel": "Phone",
+    "emailLabel": "Email",
+    "officeLabel": "Office",
+    "addressLabel": "Address",
+    "hoursLabel": "Working hours",
+    "sendEnquiry": "Send enquiry",
+    "formName": "Your name",
+    "formContact": "Email or phone",
+    "formMessage": "What do you need installed or maintained?",
+    "sendMessage": "Send Message ›",
+    "formEmail": "Email",
+    "formPhone": "Phone",
+    "formHelp": "How can we help?",
+    "home": "Home",
+    "backHome": "Back to home ›",
+    "notFoundTitle": "Page not found",
+    "notFoundText": "The page you are looking for does not exist."
+  }
+}
